@@ -1,0 +1,50 @@
+{% extends "core/principal.html" %}
+
+{% block title %}Nova Reserva{% endblock %}
+
+{% block content %}
+
+<h1>Nova Reserva</h1>
+
+<!-- FILTRO DE DATA -->
+<form method="GET" style="margin-bottom: 20px;">
+    <label>Escolha a data:</label>
+    <input type="date" name="data" value="{{ data_escolhida }}" required>
+    <button type="submit">Buscar horários</button>
+</form>
+
+{% if disponibilidade %}
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Horários disponíveis:</label>
+
+    <select name="disponibilidade" required>
+        <option value="">Selecione</option>
+
+        {% for d in disponibilidade %}
+        <option value="{{ d.id }}">
+            {{ d.local.nome }} - {{ d.hora|time:"H:i" }}
+        </option>
+        {% endfor %}
+
+    </select>
+
+    <br><br>
+
+    <button type="submit">Reservar</button>
+
+</form>
+
+{% elif data_escolhida %}
+
+<p>Nenhum horário disponível nessa data.</p>
+
+{% endif %}
+
+<br>
+<a href="{% url 'minha_reserva_listar' %}"
+    style="padding: 10px 20px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px; display: inline-block;">Voltar</a>
+
+{% endblock %}

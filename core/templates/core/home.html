@@ -1,5 +1,27 @@
-<head></head>
-<body>
-    <h1>Site de Reservas</h1>
-    <p>Projeto iniciado com sucesso!</p>
-</body>
+{% extends "core/principal.html" %}
+{% block title %}Home - ReCAR{% endblock %}
+{% block content %}
+<h1 style="text-align: center; color: #1a5490; margin-bottom: 30px;">Sistema de Reserva e Cadastro de Veículos</h1>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px;">
+    <div style="background: #f0f8ff; border-left: 4px solid #1a5490; padding: 20px; border-radius: 4px;">
+        <h3><a href="{% url 'local_listar' %}" style="color: #1a5490; text-decoration: none;">🏢 Locais</a></h3>
+        <p>Visualize e gerencie os locais de aluguel disponíveis.</p>
+    </div>
+    <div style="background: #f0fff0; border-left: 4px solid #28a745; padding: 20px; border-radius: 4px;">
+        <h3><a href="{% url 'disponibilidade' %}" style="color: #28a745; text-decoration: none;">📅 Disponibilidades</a>
+        </h3>
+        <p>Veja as datas e horários disponíveis para aluguel.</p>
+    </div>
+    <div style="background: #fff8f0; border-left: 4px solid #ff9800; padding: 20px; border-radius: 4px;">
+        <h3><a href="{% url 'minha_reserva_listar' %}" style="color: #ff9800; text-decoration: none;">📋 Minhas
+                Reservas</a></h3>
+        <p>Gerencie suas reservas e acompanhe status.</p>
+    </div>
+    <div style="background: #fff0f5; border-left: 4px solid #e91e63; padding: 20px; border-radius: 4px;">
+        <h3><a href="{% url 'minha_reserva_nova' %}" style="color: #e91e63; text-decoration: none;">➕ Nova Reserva</a>
+        </h3>
+        <p>Crie uma nova reserva selecionando a disponibilidade.</p>
+    </div>
+</div>
+{% endblock %}

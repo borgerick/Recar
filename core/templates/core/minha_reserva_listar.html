@@ -1,0 +1,57 @@
+{% extends "core/principal.html" %}
+{% block title %}Minhas Reservas - ReCAR{% endblock %}
+{% block content %}
+<div style="max-width: 900px; margin: 0 auto;">
+    <h1 style="color: #1a5490; margin-bottom: 20px;">📋 Minhas Reservas</h1>
+
+    <a href="{% url 'minha_reserva_nova' %}"
+        style="padding: 12px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 4px; display: inline-block; margin-bottom: 20px; font-weight: bold;">➕
+        Nova Reserva</a>
+
+    {% if reserva %}
+    <div style="overflow-x: auto; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background-color: #1a5490; color: white;">
+                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Usuário</th>
+                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Local</th>
+                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Data</th>
+                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Hora</th>
+                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Data da Reserva</th>
+                    <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for res in reserva %}
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 12px;">{{ res.usuario.username }}</td>
+                    <td style="padding: 12px;">{{ res.disponibilidade.local.nome }}</td>
+                    <td style="padding: 12px;">{{ res.disponibilidade.data|date:"d/m/Y" }}</td>
+                    <td style="padding: 12px;">{{ res.disponibilidade.hora }}</td>
+                    <td style="padding: 12px;">{{ res.data_reserva|date:"d/m/Y H:i" }}</td>
+                    <td style="padding: 12px; display: flex; gap: 8px;">
+                        <a href="{% url 'minha_reserva_editar' res.id %}"
+                            style="padding: 6px 12px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; font-size: 0.9em; font-weight: bold;">✏️
+                            Editar</a>
+                        <a href="{% url 'minha_reserva_excluir' res.id %}"
+                            style="padding: 6px 12px; background: #dc3545; color: white; text-decoration: none; border-radius: 4px; font-size: 0.9em; font-weight: bold;"
+                            onclick="return confirm('Tem certeza que deseja excluir esta reserva?');">🗑️ Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div style="background: #f0f8ff; padding: 20px; border-radius: 8px; text-align: center; color: #666;">
+        <p style="font-size: 1.1em;">Nenhuma reserva realizada.</p>
+    </div>
+    {% endif %}
+
+    <div style="margin-top: 20px;">
+        <a href="{% url 'home' %}"
+            style="padding: 10px 20px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px;">←
+            Voltar</a>
+    </div>
+</div>
+{% endblock %}

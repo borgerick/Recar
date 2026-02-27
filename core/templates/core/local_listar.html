@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locais - ReCAR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .btn-novo {
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .btn-novo:hover {
+            background: #218838;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .btn-editar {
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        .btn-editar:hover {
+            background: #0056b3;
+        }
+
+        .btn-deletar {
+            background: #dc3545;
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        .btn-deletar:hover {
+            background: #c82333;
+        }
+
+        .btn-voltar {
+            padding: 10px 20px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .btn-voltar:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Lista de Locais</h1>
+        <a href="{% url 'local_novo' %}" class="btn-novo">+ Novo Local</a>
+
+        {% if locais %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Cidade</th>
+                    <th>Endereço</th>
+                    <th>CEP</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for local in locais %}
+                <tr>
+                    <td>{{ local.nome }}</td>
+                    <td>{{ local.cidade }}</td>
+                    <td>{{ local.rua }}, {{ local.numero }} - {{ local.estado }}</td>
+                    <td>{{ local.cep }}</td>
+                    <td>
+                        <a href="{% url 'local_editar' local.id %}" class="btn-editar">Editar</a>
+                        <a href="{% url 'excluir_local' local.id %}" class="btn-deletar"
+                            onclick="return confirm('Tem certeza?')">Deletar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>Nenhum local cadastrado.</p>
+        {% endif %}
+
+        <br>
+        <a href="{% url 'home' %}" class="btn-voltar">Voltar</a>
+    </div>
+</body>
+
+</html>

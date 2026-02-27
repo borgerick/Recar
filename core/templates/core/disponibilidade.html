@@ -1,0 +1,72 @@
+{% extends "core/principal.html" %}
+
+{% block title %}Disponibilidades{% endblock %}
+
+{% block content %}
+
+<h1>Disponibilidades</h1>
+<p>Escolha uma data para ver os horários disponíveis.</p>
+
+
+<!-- FILTRO DE DATA -->
+<form method="get" style="margin-bottom:20px;">
+    <label><strong>Selecione a data:</strong></label>
+    <input type="date" name="data" value="{{ data_escolhida }}">
+    <button type="submit">Buscar</button>
+</form>
+
+
+
+<table border="1" cellpadding="10" cellspacing="0" style="margin-top: 20px; width: 100%;">
+    <thead style="background-color: #f2f2f2;">
+        <tr>
+            <th>Local</th>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% if not data_escolhida %}
+        <tr>
+            <td colspan="4" style="text-align:center;">
+                🔎 Escolha uma data acima para visualizar as disponibilidades.
+            </td>
+        </tr>
+
+        {% else %}
+
+        {% for d in disponibilidade %}
+        <tr>
+            <td>{{ d.local.nome }}</td>
+            <td>{{ d.data|date:"d/m/Y" }}</td>
+            <td>{{ d.hora|time:"H:i" }}</td>
+
+            <td>
+                {% if d.disponivel %}
+                <span style="color: green;">Disponível</span>
+                {% else %}
+                <span style="color: red;">Reservado</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" style="text-align:center;">
+                ❌ Nenhum horário disponível para esta data.
+            </td>
+        </tr>
+        {% endfor %}
+
+        {% endif %}
+
+    </tbody>
+</table>
+
+<br>
+<a href="{% url 'home' %}"
+    style="padding: 10px 20px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px; display: inline-block;">Voltar</a>
+
+{% endblock %}

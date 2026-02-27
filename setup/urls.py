@@ -16,20 +16,31 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import home
-from core.views import login, cadastro, principal, reserva, disponibilidade, minha_reserva, base
+from core.views import (
+    principal, login, home, cadastro_usuario,
+    local_listar, local_novo, local_editar, excluir_local,
+    disponibilidade,
+    minha_reserva_listar, minha_reserva_nova, minha_reserva_editar, minha_reserva_excluir
+)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', home, name='home'),
 
-    path('base/', base, name='base'),
-    
-    path('login/', login, name='login'),
-    path('cadastro/', cadastro, name='cadastro'),
-    path('principal/', principal, name='principal'),
-    path('reserva/', reserva, name='reserva'),
-    path('disponibilidade/', disponibilidade, name='disponibilidade'),   
-    path('minha-reserva/', minha_reserva, name='minha-reserva'),
-        
+    path("admin/", admin.site.urls),
+
+    path("", principal, name="principal"),
+    path("login/", login, name="login"),
+    path("home/", home, name="home"),
+    path("cadastro/", cadastro_usuario, name="cadastro_usuario"),
+
+    path("locais/", local_listar, name="local_listar"),
+    path("locais/novo/", local_novo, name="local_novo"),
+    path("locais/editar/<int:id>/", local_editar, name="local_editar"),
+    path("locais/excluir/<int:id>/", excluir_local, name="excluir_local"),
+
+    path("disponibilidade/", disponibilidade, name="disponibilidade"),
+
+    path("reservas/", minha_reserva_listar, name="minha_reserva_listar"),
+    path("reservas/nova/", minha_reserva_nova, name="minha_reserva_nova"),
+    path("reservas/editar/<int:id>/", minha_reserva_editar, name="minha_reserva_editar"),
+    path("reservas/excluir/<int:id>/", minha_reserva_excluir, name="minha_reserva_excluir"),
 ]

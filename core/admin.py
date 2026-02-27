@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Local, Disponibilidade, Reserva
+
+admin.site.register(Local)
+admin.site.register(Disponibilidade)
+admin.site.register(Reserva)

@@ -1,0 +1,62 @@
+{% extends "core/principal.html" %}
+{% block title %}Novo Local - ReCAR{% endblock %}
+{% block content %}
+<h1>Cadastrar Novo Local</h1>
+<p>Preencha os dados abaixo para cadastrar um novo local de aluguel.</p>
+
+<div style="max-width: 600px; margin-top: 30px;">
+    <form method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+        {% csrf_token %}
+
+        <div>
+            <label for="nome" style="display: block; margin-bottom: 5px; font-weight: bold;">Nome do Local:</label>
+            <input type="text" id="nome" name="nome" required
+                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+        </div>
+
+        <div>
+            <label for="cidade" style="display: block; margin-bottom: 5px; font-weight: bold;">Cidade:</label>
+            <input type="text" id="cidade" name="cidade" required
+                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+        </div>
+
+        <div>
+            <label for="rua" style="display: block; margin-bottom: 5px; font-weight: bold;">Rua:</label>
+            <input type="text" id="rua" name="rua" required
+                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+        </div>
+
+        <div>
+            <label for="numero" style="display: block; margin-bottom: 5px; font-weight: bold;">Número:</label>
+            <input type="text" id="numero" name="numero" required
+                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+        </div>
+
+        <div>
+            <label for="estado" style="display: block; margin-bottom: 5px; font-weight: bold;">Estado:</label>
+            <input type="text" id="estado" name="estado" required
+                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+        </div>
+
+        <div>
+            <label for="pais" style="display: block; margin-bottom: 5px; font-weight: bold;">País:</label>
+            <input type="text" id="pais" name="pais" required
+                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+        </div>
+
+        <div>
+            <label for="cep" style="display: block; margin-bottom: 5px; font-weight: bold;">CEP:</label>
+            <input type="text" id="cep" name="cep" required
+                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <button type="submit"
+                style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Salvar
+                Local</button>
+            <a href="{% url 'local_listar' %}"
+                style="padding: 10px 20px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px;">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

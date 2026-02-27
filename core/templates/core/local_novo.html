@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Local - ReCAR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            color: #555;
+            font-weight: bold;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .grupo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        button {
+            padding: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        .btn-voltar {
+            padding: 10px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .btn-voltar:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Novo Local</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <label>Nome:</label>
+            <input type="text" name="nome" required>
+
+            <label>Cidade:</label>
+            <input type="text" name="cidade" required>
+
+            <label>Rua:</label>
+            <input type="text" name="rua" required>
+
+            <div class="grupo">
+                <div>
+                    <label>Número:</label>
+                    <input type="text" name="numero" required>
+                </div>
+                <div>
+                    <label>CEP:</label>
+                    <input type="text" name="cep" required>
+                </div>
+            </div>
+
+            <div class="grupo">
+                <div>
+                    <label>Estado:</label>
+                    <input type="text" name="estado" required>
+                </div>
+                <div>
+                    <label>País:</label>
+                    <input type="text" name="pais" required>
+                </div>
+            </div>
+
+            <button type="submit">Salvar</button>
+            <a href="{% url 'local_listar' %}" class="btn-voltar">Cancelar</a>
+        </form>
+    </div>
+</body>
+
+</html>

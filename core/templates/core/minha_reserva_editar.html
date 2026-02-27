@@ -1,0 +1,98 @@
+{% extends "core/principal.html" %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="page-header">
+        <h1>Editar Reserva</h1>
+    </div>
+
+    <div class="form-container">
+        <!-- Exibição da reserva atual -->
+        <div class="current-reservation"
+            style="background: #f9f9f9; border-left: 4px solid #007bff; padding: 15px; margin-bottom: 30px; border-radius: 4px;">
+            <h3 style="margin-top: 0;">Reserva Atual</h3>
+            <p><strong>Local:</strong> {{ reserva.disponibilidade.local.nome }}</p>
+            <p><strong>Cidade:</strong> {{ reserva.disponibilidade.local.cidade }}</p>
+            <p><strong>Data:</strong> {{ reserva.disponibilidade.data|date:"d/m/Y" }}</p>
+            <p><strong>Hora:</strong> {{ reserva.disponibilidade.hora }}</p>
+        </div>
+
+        <!-- Formulário para filtrar por data (GET) -->
+        <form method="GET" style="margin-bottom: 30px;">
+            <div style="display: flex; gap: 10px; align-items: flex-end;">
+                <div style="flex: 1;">
+                    <label for="data" style="display: block; margin-bottom: 5px; font-weight: bold;">Filtrar por
+                        Data:</label>
+                    <input type="date" id="data" name="data" value="{{ data_selecionada }}"
+                        style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                <button type="submit"
+                    style="padding: 8px 20px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Filtrar</button>
+            </div>
+        </form>
+
+        <!-- Formulário para selecionar nova disponibilidade (POST) -->
+        {% if disponibilidade %}
+        <form method="POST">
+            {% csrf_token %}
+            <div style="margin-bottom: 20px;">
+                <label for="nova_disponibilidade"
+                    style="display: block; margin-bottom: 10px; font-weight: bold;">Selecione Nova Data/Hora:</label>
+                <select id="nova_disponibilidade" name="disponibilidade" required
+                    style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                    <option value="">-- Escolha uma disponibilidade --</option>
+                    {% for d in disponibilidade %}
+                    {% if d.disponivel %}
+                    <option value="{{ d.id }}">{{ d.data|date:"d/m/Y" }} - {{ d.hora }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button type="submit"
+                    style="flex: 1; padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Atualizar
+                    Reserva</button>
+                <a href="{% url 'minha_reserva_listar' %}"
+                    style="flex: 1; padding: 10px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px; text-align: center; font-weight: bold;">Cancelar</a>
+            </div>
+        </form>
+        {% else %}
+        <div style="background: #fff3cd; border: 1px solid #ffc107; color: #856404; padding: 15px; border-radius: 4px;">
+            <strong>⚠️ Atenção:</strong> Nenhuma disponibilidade encontrada para a data selecionada. Por favor, escolha
+            outra data.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .content-wrapper {
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .page-header h1 {
+        color: #333;
+        margin-bottom: 30px;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 10px;
+    }
+
+    .form-container {
+        background: white;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .current-reservation {
+        font-size: 14px;
+    }
+
+    .current-reservation p {
+        margin: 8px 0;
+    }
+</style>
+{% endblock %}
