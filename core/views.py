@@ -1,9 +1,18 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from .models import Local, Disponibilidade, Reserva
 from datetime import datetime, time
+
+
+# =====================
+# PAGINAS PRINCIPAIS
+# =====================
+def is_admin(user):
+    """Verifica se o usuário é admin (staff ou superuser)"""
+    return user.is_staff or user.is_superuser
 
 
 # =====================
@@ -37,6 +46,12 @@ def login(request):
 
 def home(request):
     return render(request, "core/home.html")
+
+
+def logout(request):
+    auth_logout(request)
+    messages.success(request, "Você saiu com sucesso!")
+    return redirect("principal")
 
 
 def cadastro_usuario(request):
@@ -75,11 +90,15 @@ def cadastro_usuario(request):
 # LOCAIS
 # =====================
 
+@login_required(login_url='login')
+@user_passes_test(is_admin)
 def local_listar(request):
     locais = Local.objects.all()
     return render(request, "core/local_listar.html", {"locais": locais})
 
 
+@login_required(login_url='login')
+@user_passes_test(is_admin)
 def local_novo(request):
     if request.method == "POST":
 
@@ -109,6 +128,8 @@ def local_novo(request):
     return render(request, "core/local_novo.html")
 
 
+@login_required(login_url='login')
+@user_passes_test(is_admin)
 def local_editar(request, id):
     local = Local.objects.get(id=id)
 
@@ -127,6 +148,8 @@ def local_editar(request, id):
     return render(request, "core/local_editar.html", {"local": local})
 
 
+@login_required(login_url='login')
+@user_passes_test(is_admin)
 def excluir_local(request, id):
     Local.objects.get(id=id).delete()
     return redirect("local_listar")
@@ -136,6 +159,7 @@ def excluir_local(request, id):
 # DISPONIBILIDADE (COM FILTRO POR DATA)
 # =====================
 
+@login_required(login_url='login')
 def disponibilidade(request):
 
     data_escolhida = request.GET.get("data")
@@ -167,11 +191,13 @@ def disponibilidade(request):
 # RESERVAS
 # =====================
 
+@login_required(login_url='login')
 def minha_reserva_listar(request):
     reserva = Reserva.objects.all()
     return render(request, "core/minha_reserva_listar.html", {"reserva": reserva})
 
 
+@login_required(login_url='login')
 def minha_reserva_nova(request):
 
     # FILTRO DE DATA
@@ -220,6 +246,7 @@ def minha_reserva_nova(request):
     )
 
 
+@login_required(login_url='login')
 def minha_reserva_editar(request, id):
     reserva = Reserva.objects.get(id=id)
     
@@ -268,6 +295,7 @@ def minha_reserva_editar(request, id):
     )
 
 
+@login_required(login_url='login')
 def minha_reserva_excluir(request, id):
     reserva = Reserva.objects.get(id=id)
     

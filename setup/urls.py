@@ -20,7 +20,8 @@ from core.views import (
     principal, login, home, cadastro_usuario,
     local_listar, local_novo, local_editar, excluir_local,
     disponibilidade,
-    minha_reserva_listar, minha_reserva_nova, minha_reserva_editar, minha_reserva_excluir
+    minha_reserva_listar, minha_reserva_nova, minha_reserva_editar, minha_reserva_excluir,
+    logout
 )
 
 urlpatterns = [
@@ -38,6 +39,7 @@ urlpatterns = [
     path("locais/excluir/<int:id>/", excluir_local, name="excluir_local"),
 
     path("disponibilidade/", disponibilidade, name="disponibilidade"),
+    path("logout/", logout, name="logout"),
 
     path("reservas/", minha_reserva_listar, name="minha_reserva_listar"),
     path("reservas/nova/", minha_reserva_nova, name="minha_reserva_nova"),
