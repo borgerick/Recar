@@ -7,7 +7,7 @@
     </div>
 
     <div class="form-container">
-        <!-- Exibição da reserva atual -->
+        
         <div class="current-reservation"
             style="background: #f9f9f9; border-left: 4px solid #007bff; padding: 15px; margin-bottom: 30px; border-radius: 4px;">
             <h3 style="margin-top: 0;">Reserva Atual</h3>
@@ -17,7 +17,7 @@
             <p><strong>Hora:</strong> {{ reserva.disponibilidade.hora }}</p>
         </div>
 
-        <!-- Formulário para filtrar por data (GET) -->
+        
         <form method="GET" style="margin-bottom: 30px;">
             <div style="display: flex; gap: 10px; align-items: flex-end;">
                 <div style="flex: 1;">
@@ -31,7 +31,7 @@
             </div>
         </form>
 
-        <!-- Formulário para selecionar nova disponibilidade (POST) -->
+        
         {% if disponibilidade %}
         <form method="POST">
             {% csrf_token %}

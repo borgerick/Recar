@@ -26,7 +26,7 @@ class Disponibilidade(models.Model):
 
 
 class Reserva(models.Model):
-    # RESERVA AGORA LIGA COM DISPONIBILIDADE (CORRETO)
+    
     disponibilidade = models.ForeignKey(Disponibilidade, on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 

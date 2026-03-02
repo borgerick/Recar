@@ -7,17 +7,11 @@ from .models import Local, Disponibilidade, Reserva
 from datetime import datetime, time
 
 
-# =====================
-# PAGINAS PRINCIPAIS
-# =====================
 def is_admin(user):
     """Verifica se o usuário é admin (staff ou superuser)"""
     return user.is_staff or user.is_superuser
 
 
-# =====================
-# PAGINAS PRINCIPAIS
-# =====================
 
 def principal(request):
     return render(request, "core/principal.html")
@@ -28,16 +22,16 @@ def login(request):
         username = request.POST.get("username")
         password = request.POST.get("password")
         
-        # Autenticar o usuário
+        
         user = authenticate(request, username=username, password=password)
         
         if user is not None:
-            # Login bem-sucedido
+            
             auth_login(request, user)
             messages.success(request, f"Bem-vindo, {user.first_name or user.username}!")
             return redirect("home")
         else:
-            # Credenciais inválidas
+            
             messages.error(request, "Usuário ou senha inválidos!")
             return redirect("login")
     
@@ -62,17 +56,17 @@ def cadastro_usuario(request):
         password = request.POST.get("password")
         password2 = request.POST.get("password2")
 
-        # Validação de senhas iguais
+        
         if password != password2:
             messages.error(request, "As senhas não conferem!")
             return redirect("cadastro_usuario")
 
-        # Verificar se o usuário já existe
+        
         if User.objects.filter(username=username).exists():
             messages.error(request, "Este usuário já existe!")
             return redirect("cadastro_usuario")
 
-        # Criar usuário
+        
         user = User.objects.create_user(
             username=username,
             email=email,
@@ -86,10 +80,6 @@ def cadastro_usuario(request):
     return render(request, "core/cadastro_usuario.html")
 
 
-# =====================
-# LOCAIS
-# =====================
-
 @login_required(login_url='login')
 @user_passes_test(is_admin)
 def local_listar(request):
@@ -102,7 +92,7 @@ def local_listar(request):
 def local_novo(request):
     if request.method == "POST":
 
-        # CRIA O LOCAL
+        
         local = Local.objects.create(
             nome=request.POST.get("nome"),
             cidade=request.POST.get("cidade"),
@@ -155,9 +145,6 @@ def excluir_local(request, id):
     return redirect("local_listar")
 
 
-# =====================
-# DISPONIBILIDADE (COM FILTRO POR DATA)
-# =====================
 
 @login_required(login_url='login')
 def disponibilidade(request):
@@ -187,9 +174,7 @@ def disponibilidade(request):
     )
 
 
-# =====================
-# RESERVAS
-# =====================
+
 
 @login_required(login_url='login')
 def minha_reserva_listar(request):
@@ -200,7 +185,7 @@ def minha_reserva_listar(request):
 @login_required(login_url='login')
 def minha_reserva_nova(request):
 
-    # FILTRO DE DATA
+    
     data_escolhida = request.GET.get("data")
 
     disponibilidades = None
@@ -211,7 +196,7 @@ def minha_reserva_nova(request):
             disponivel=True
         ).select_related("local")
 
-    # CRIAR RESERVA
+    
     if request.method == "POST":
 
         if not request.user.is_authenticated:
@@ -227,7 +212,7 @@ def minha_reserva_nova(request):
                 usuario=request.user
             )
 
-            # BLOQUEIA HORÁRIO
+            
             disp.disponivel = False
             disp.save()
 
@@ -250,7 +235,7 @@ def minha_reserva_nova(request):
 def minha_reserva_editar(request, id):
     reserva = Reserva.objects.get(id=id)
     
-    # FILTRO DE DATA
+    
     data_escolhida = request.GET.get("data")
     disponibilidades = None
     
@@ -260,22 +245,22 @@ def minha_reserva_editar(request, id):
             disponivel=True
         ).select_related("local")
     
-    # ATUALIZAR RESERVA
+    
     if request.method == "POST":
         disp_id = request.POST.get("disponibilidade")
         
         try:
             nova_disp = Disponibilidade.objects.get(id=disp_id, disponivel=True)
             
-            # LIBERA A DISPONIBILIDADE ANTERIOR
+            
             reserva.disponibilidade.disponivel = True
             reserva.disponibilidade.save()
             
-            # ATUALIZA PARA NOVA DISPONIBILIDADE
+            
             reserva.disponibilidade = nova_disp
             reserva.save()
             
-            # BLOQUEIA NOVA DISPONIBILIDADE
+            
             nova_disp.disponivel = False
             nova_disp.save()
             
@@ -299,11 +284,11 @@ def minha_reserva_editar(request, id):
 def minha_reserva_excluir(request, id):
     reserva = Reserva.objects.get(id=id)
     
-    # LIBERA A DISPONIBILIDADE
+    
     reserva.disponibilidade.disponivel = True
     reserva.disponibilidade.save()
     
-    # DELETA A RESERVA
+    
     reserva.delete()
     
     return redirect("minha_reserva_listar")
